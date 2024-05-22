@@ -21,6 +21,13 @@ class DeserializationMethod extends Method {
     or (this.getDeclaringType().hasQualifiedName("com.fasterxml.jackson.databind", "ObjectMapper") and this.hasName("readValue"))
     or (this.getDeclaringType().hasQualifiedName("com.google.gson", "Gson") and this.hasName("fromJson"))
     or (this.getDeclaringType().hasQualifiedName("org.yaml.snakeyaml", "Yaml") and this.hasName("load"))
+    or (this.getDeclaringType().hasQualifiedName("org.apache.avro.io", "DatumReader") and this.hasName("read"))
+    or (this.getDeclaringType().hasQualifiedName("org.apache.thrift", "TDeserializer") and this.hasName("deserialize"))
+    or (this.getDeclaringType().hasQualifiedName("com.google.protobuf", "Parser") and this.hasName("parseFrom"))
+    or (this.getDeclaringType().hasQualifiedName("org.nustaq.serialization", "FSTObjectInput") and this.hasName("readObject"))
+    or (this.getDeclaringType().hasQualifiedName("org.boon.json", "JsonFactory") and this.hasName("fromJson"))
+    or (this.getDeclaringType().hasQualifiedName("com.fasterxml.jackson.dataformat.cbor", "CBORParser") and this.hasName("readValue"))
+    or (this.getDeclaringType().hasQualifiedName("org.apache.jserial.io", "ObjectInputStream") and this.hasName("readObject"))
   }
 }
 
