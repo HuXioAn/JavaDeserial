@@ -1,5 +1,6 @@
 import requests
 import sys
+import re
 
 def get_codeql_database(owner: str, repo: str, language: str, token: str):
 
@@ -56,8 +57,33 @@ if __name__ == "__main__":
     owner = "line"
     repo = "line-fido2-server"
     language = "java"  
-
-    result = get_codeql_database(owner, repo, language, token)
-    if result:
-        print(result)
-        download_codeql_database(owner, repo, language, token, sys.argv[1])
+    
+    if len(sys.argv) != 5:
+        print("[!] 4 arguments required: pathDerictory repoListFile indexLow indexHigh")
+        exit(-1)
+    
+    outputPath = sys.argv[1]
+    
+    with open(sys.argv[2], 'r') as f:
+        lines = f.readlines()
+        i = int(sys.argv[3])
+        while i < int(sys.argv[4]):
+            
+            line = lines[i]
+            match = re.match(r"https://github.com/([^/]+)/([^/]+)", line)
+            if match:
+                owner, repo = match.groups()
+                owner = owner.strip()
+                repo = repo.strip()
+            else:
+                print("[!]Can not get the owner/name pair")
+                exit(-1)
+            
+            print("[*] Querying for ", owner, "/", repo)
+            result = get_codeql_database(owner, repo, language, token)
+            if result:
+                path = sys.argv[1]+owner+'_'+repo+'_'+str(i)+'.zip'
+                print("[*] Downloading ", path)
+                download_codeql_database(owner, repo, language, token, path)
+        
+            i += 1
