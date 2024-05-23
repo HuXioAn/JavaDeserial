@@ -1,19 +1,25 @@
 #!/bin/bash
 
 
-if [ "$#" -ne 3 ]; then
-    echo "Usage: $0 <directory> <file> <reportPath>"
+if [ "$#" -ne 4 ]; then
+    echo "Usage: $0 <directory> <listPath> <file> <reportPath>"
     exit 1
 fi
 
 
 directory=$1
-file=$2
-report=$3
+listPath=$2
+file=$3
+report=$4
 
 
 if [ ! -d "$directory" ]; then
     echo "Directory $directory does not exist."
+    exit 1
+fi
+
+if [ ! -d "$listPath" ]; then
+    echo "listPath $listPath does not exist."
     exit 1
 fi
 
@@ -36,12 +42,12 @@ function handle_interrupt {
 trap handle_interrupt SIGINT
 
 
-for entry in "$directory"/*; do
-    if [ -f "$entry" ] && [[ "$entry" == *.zip ]]; then
-        filepath="${entry%.zip}"
-        filename=$(basename "$entry" .zip)
-        target_directory="${filepath}.temp"
-        unzip -q "${entry}" -d "${target_directory}"
+for entry in "$listPath"/*; do
+    if [ -f "$entry" ] && [[ "$entry" == *.csv ]]; then
+        #filepath="${entry%.csv}"
+        filename=$(basename "$entry" .csv)
+        target_directory="${directory}/${filename}.temp"
+        unzip -q "${directory}/${filename}.zip" -d "${target_directory}"
 
         reportPath="${directory}/${report}/${filename}.csv"
         echo "[*] Writing to ${reportPath}"
