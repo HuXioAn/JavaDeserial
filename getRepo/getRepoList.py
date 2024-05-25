@@ -9,7 +9,7 @@ url = 'https://api.github.com/search/repositories'
 
 # 查询参数
 params = {
-    'q': 'language:java stars:50..500',
+    'q': 'language:java stars:100..5000',
     'sort': 'stars',
     'order': 'desc',
     'per_page': 200,  # 每页返回的结果数
