@@ -53,7 +53,7 @@ for entry in "$directory"/*; do
             echo "[*] ID: ${count} Writing to ${reportPath}"
 
             #some folder's called java rather than  codeql_db
-            codeql database analyze "${target_directory}/java" "${file}" --format=csv --output="${reportPath}"
+            codeql database analyze "${target_directory}/codeql_db" "${file}" --format=csv --output="${reportPath}"
             if ! grep -q '[^[:space:]]' "${reportPath}"; then
                 rm "${reportPath}"
             fi
